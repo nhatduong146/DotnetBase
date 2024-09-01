@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Commands\Accounts\Response\**" />
+    <EmbeddedResource Remove="Commands\Accounts\Response\**" />
+    <None Remove="Commands\Accounts\Response\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Categories\Response\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotnetBase.Domain\DotnetBase.Domain.csproj" />
+    <ProjectReference Include="..\DotnetBase.Infrastructure\DotnetBase.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

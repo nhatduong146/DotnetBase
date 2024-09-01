@@ -1,0 +1,50 @@
+version: '3.4'
+
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}ElectricManagement-api
+    build:
+      context: .
+      dockerfile: ElectricManagement.Api/Dockerfile_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "1111:80"
+      - "1112:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      
+  media:
+    image: ${DOCKER_REGISTRY-}ElectricManagement-media
+    build:
+      context: .
+      dockerfile: ElectricManagement.Media/Dockerfile_media
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:444;http://+:81
+    ports:
+      - "2222:81"
+      - "2223:444"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro   
+
+  mssql:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    container_name: mssqlserver
+    restart: always
+    hostname: mssql
+    environment:
+      SA_PASSWORD: Duong123123
+      ACCEPT_EULA: Y
+      
+    volumes:
+      - mssqlvolume:/var/opt/mssql/data
+      - ./bk:/var/opt/mssql/backup
+    ports:
+      - "1433:1433"
+
+volumes:
+    mssqlvolume:
